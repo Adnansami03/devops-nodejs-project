@@ -1,13 +1,18 @@
-FROM node:18
+# Use the official Node.js lightweight image
+FROM node:18-alpine
 
-WORKDIR /app
+# Set working directory inside the container
+WORKDIR /usr/src/app
 
+# Copy package files and install production dependencies
 COPY package*.json ./
+RUN npm install --only=production
 
-RUN npm install
+# Copy the application source code
+COPY server.js .
 
-COPY . .
-
+# Expose port 3000
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+# Command to run the application
+CMD ["node", "server.js"]
